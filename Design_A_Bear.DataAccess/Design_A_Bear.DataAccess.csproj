@@ -21,4 +21,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Design_A_Bear.Models\Design_A_Bear.Models.csproj" />
+  </ItemGroup>
+
 </Project>
