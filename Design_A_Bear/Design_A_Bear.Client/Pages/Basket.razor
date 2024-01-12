@@ -1,5 +1,49 @@
 ﻿@page "/Basket"
-<h3>Basket</h3>
+
+
+<div class="container">
+    <h1>Basket</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Price</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(int i=0;i<=5;i++){
+                
+            
+            <tr>
+                <th scope="row">
+                    <img src="heroImg.png" style="width:80px;height:50px" /> Bearlieve Teddy Bear
+                </th>
+                <td>
+                    £30.00
+                </td>
+                <td>
+                    <select>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </td>
+                <td>£60.00</td>
+                <td><button class="btn btn-danger">Delete</button></td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 @code {
 
