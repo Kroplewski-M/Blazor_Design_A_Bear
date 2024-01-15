@@ -1,7 +1,9 @@
 ﻿@page "/auth"
 
 @using Microsoft.AspNetCore.Authorization
+@implements IDisposable
 
+@inject NavigationManager NavigationManager
 @attribute [Authorize]
 @rendermode InteractiveAuto
 
@@ -9,6 +11,36 @@
 
 <h1>You are authenticated</h1>
 
+
 <AuthorizeView>
     Hello @context.User.Identity?.Name!
 </AuthorizeView>
+
+<form action="Account/Logout" method="post">
+    <AntiforgeryToken />
+    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+    <button type="submit" class="btn btn-danger">
+        Logout
+    </button>
+</form>
+
+@code{
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
