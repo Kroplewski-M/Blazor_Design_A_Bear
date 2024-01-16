@@ -13,9 +13,9 @@
 <PageTitle>Log in</PageTitle>
 
 <div class="row justify-content-center mt-5 ">
-    <div class="col-md-4 rounded primaryBg">
+    <div class="col-md-4 rounded primaryBg p-4">
         <h1 class="fw-bold text-light">Log in</h1>
-        <hr/>
+        <hr />
         <section>
             <StatusMessage Message="@errorMessage" />
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
@@ -48,7 +48,6 @@
         </section>
     </div>
 </div>
-
 @code {
     private string? errorMessage;
 

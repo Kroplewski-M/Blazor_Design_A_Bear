@@ -91,3 +91,6 @@ h1:focus {
     width: 100vw;
     height: 100px;
 }
+.mainPage{
+    min-height: 100vh;
+}

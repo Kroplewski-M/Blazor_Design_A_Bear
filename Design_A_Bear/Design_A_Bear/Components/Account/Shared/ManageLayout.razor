@@ -1,12 +1,30 @@
 ﻿@inherits LayoutComponentBase
 @layout AccountLayout
 
-<h1>Manage your account</h1>
+@* 
+<div class="container ">
+    <div class="border">
+        <h1 class=" mb-3 mt-5 fw-bold">Manage your account</h1>
+        <div class="d-flex justify-content-center align-items-center">
+            <hr />
+            <div class="row" style="width:100vw">
+                <div class="col-md-3">
+                    <ManageNavMenu />
+                </div>
+                <div class="col-md-5 ps-4">
+                    @Body
+                </div>
+            </div>
+        </div>
 
-<div>
-    <h2>Change your account settings</h2>
+    </div>
+</div>
+ *@
+
+<div class="container primaryBg rounded p-3 mt-5">
+    <h1 class="text-light fw-bold">Manage your account</h1>
     <hr />
-    <div class="row">
+    <div class="row mx-auto ">
         <div class="col-md-3">
             <ManageNavMenu />
         </div>
