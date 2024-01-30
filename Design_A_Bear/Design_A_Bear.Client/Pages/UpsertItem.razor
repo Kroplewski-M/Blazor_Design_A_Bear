@@ -18,7 +18,7 @@
                 <DataAnnotationsValidator />
 
                 <div class="form-floating mb-3">
-                    <InputFile class="form-control" placeholder="name@example.com" accept="image/*" OnChange="HandleFileChange"></InputFile>
+                    <InputFile class="form-control" placeholder="name@example.com" accept="image/png" OnChange="HandleFileChange"></InputFile>
                         <label for="floatingInput">Product Image</label>
                         <ValidationMessage For="() => item.ImgBase64" />
                     </div>
@@ -67,7 +67,7 @@
 
 </div>
 
- @code {
+@code {
     [Parameter]
     public int Id { get; set; } = 0;
 
@@ -79,10 +79,11 @@
     }
     protected override async Task OnInitializedAsync()
     {
-       
+
     }
     private string base64String = string.Empty;
     private string imageSource = string.Empty;
+
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
