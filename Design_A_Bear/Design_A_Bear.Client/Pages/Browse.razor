@@ -1,5 +1,8 @@
 ﻿@page "/browse"
-
+@using Design_A_Bear.Services
+@using Design_A_Bear.Models
+@inject IItemService ItemService
+@rendermode InteractiveAuto
 
 <PageTitle>Browse Products</PageTitle>
 
@@ -7,5 +10,10 @@
 
 
 @code {
+    List<Item> items = new List<Item>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        items = await ItemService.GetAllItems();
+    }
 }

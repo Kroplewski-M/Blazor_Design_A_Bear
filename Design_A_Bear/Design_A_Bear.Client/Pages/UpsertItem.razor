@@ -1,7 +1,9 @@
 ﻿@page "/upsertitem"
 @page "/upsertitem/{Id:int}"
 @using Design_A_Bear.Models
+@using Design_A_Bear.Services
 @using Microsoft.AspNetCore.Authorization
+@inject IItemService ItemService
 @rendermode InteractiveAuto
 @attribute [Authorize]
 
@@ -77,7 +79,8 @@
 
     private void HandleSubmit()
     {
-
+        // await ItemService.AddItem(item);
+        var result = item;
     }
     protected override async Task OnInitializedAsync()
     {

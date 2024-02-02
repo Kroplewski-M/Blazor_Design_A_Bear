@@ -8,9 +8,9 @@ namespace Design_A_Bear.Controllers
     [ApiController]
     public class ItemController : ControllerBase
     {
-        private readonly IItemServices _itemServices;
+        private readonly IItemService _itemServices;
 
-        public ItemController(IItemServices itemServices)
+        public ItemController(IItemService itemServices)
         {
             _itemServices = itemServices;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Design_A_Bear.Services
 {
-    public interface IItemServices
+    public interface IItemService
     {
         Task<List<Item>> GetAllItems();
         Task<Item> GetItemById(int id);
