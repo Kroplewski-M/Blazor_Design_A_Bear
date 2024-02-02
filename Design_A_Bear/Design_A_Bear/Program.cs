@@ -2,6 +2,7 @@ using Design_A_Bear.Client.Pages;
 using Design_A_Bear.Components;
 using Design_A_Bear.Components.Account;
 using Design_A_Bear.DataAccess;
+using Design_A_Bear.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+builder.Services.AddScoped<IItemService,ItemService>();
 
 var app = builder.Build();
 

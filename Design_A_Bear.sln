@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Design_A_Bear.DataAccess", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Design_A_Bear.Models", "Design_A_Bear.Models\Design_A_Bear.Models.csproj", "{B2DE0CFC-77BF-4BA3-8CE8-3E2F4F5CB5D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Design_A_Bear.Services", "Design_A_Bear.Services\Design_A_Bear.Services.csproj", "{03919C6E-CD32-41BE-AC13-89D09B933319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B2DE0CFC-77BF-4BA3-8CE8-3E2F4F5CB5D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2DE0CFC-77BF-4BA3-8CE8-3E2F4F5CB5D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2DE0CFC-77BF-4BA3-8CE8-3E2F4F5CB5D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03919C6E-CD32-41BE-AC13-89D09B933319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03919C6E-CD32-41BE-AC13-89D09B933319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03919C6E-CD32-41BE-AC13-89D09B933319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03919C6E-CD32-41BE-AC13-89D09B933319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

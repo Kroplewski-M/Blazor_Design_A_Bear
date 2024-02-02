@@ -9,7 +9,7 @@ using Design_A_Bear.DataAccess;
 
 namespace Design_A_Bear.Services
 {
-    public class ItemService(ApplicationDbContext db) : IItemServices
+    public class ItemService(ApplicationDbContext db) : IItemService
     {
         private readonly ApplicationDbContext _db = db;
 
@@ -24,19 +24,16 @@ namespace Design_A_Bear.Services
             return item;
         }
 
-        public async Task DeleteItem(int id)
+        public async Task<bool> DeleteItem(int id)
         {
-            if(id == 0)
-            {
-                throw new Exception("Item not found");
-            }
             var item = await _db.Items.FirstOrDefaultAsync(x => x.Id == id);
             if (item == null)
             {
-                throw new Exception("Item not found");
+                return false;
             }
             _db.Items.Remove(item);
             await _db.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<Item>> GetAllItems()

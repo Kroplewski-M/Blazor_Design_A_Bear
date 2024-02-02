@@ -13,6 +13,6 @@ namespace Design_A_Bear.Services
         Task<Item> GetItemById(int id);
         Task<Item> AddItem(Item item);
         Task<Item> UpdateItem(Item item);
-        Task DeleteItem(int id);
+        Task<bool> DeleteItem(int id);
     }
 }

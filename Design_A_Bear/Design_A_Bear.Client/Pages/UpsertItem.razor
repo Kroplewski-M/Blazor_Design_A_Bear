@@ -1,7 +1,9 @@
 ﻿@page "/upsertitem"
 @page "/upsertitem/{Id:int}"
 @using Design_A_Bear.Models
+@using Microsoft.AspNetCore.Authorization
 @rendermode InteractiveAuto
+@attribute [Authorize]
 
 <div class="container mt-5 primaryBg rounded p-3">
     @if(Id == 0)
