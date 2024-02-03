@@ -17,8 +17,18 @@ namespace Design_A_Bear.Services
         }
         public async Task<Item> AddItem(Item item)
         {
-            var result = await _httpClient.PostAsJsonAsync($"/api/Item",item);
-            return await result.Content.ReadFromJsonAsync<Item>();
+            var result = await _httpClient.PostAsJsonAsync("/api/Item",item);
+            //return await result.Content.ReadFromJsonAsync<Item>();
+            if (result.IsSuccessStatusCode)
+            {
+                return await result.Content.ReadFromJsonAsync<Item>();
+            }
+            else
+            {
+                // Handle non-success status code, e.g., log the error or throw an exception
+                // You may want to customize this based on your error-handling strategy
+                throw new Exception($"Failed to add item. Status code: {result}");
+            }
         }
 
         public async Task<bool> DeleteItem(int id)

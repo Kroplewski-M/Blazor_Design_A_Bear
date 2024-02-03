@@ -77,15 +77,15 @@
 
     private Item item = new Item();
 
-    private void HandleSubmit()
+    async Task HandleSubmit()
     {
-        // await ItemService.AddItem(item);
-        var result = item;
+        await ItemService.AddItem(item);
+        var result = item; 
     }
-    protected override async Task OnInitializedAsync()
-    {
+    // protected override async Task OnInitializedAsync()
+    // {
 
-    }
+    // }
     private string base64String = string.Empty;
     private string imageSource = string.Empty;
 

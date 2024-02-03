@@ -15,31 +15,31 @@ namespace Design_A_Bear.Controllers
             _itemServices = itemServices;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllItems()
+        public async Task<ActionResult> GetAllItems()
         {
             var allItems = await _itemServices.GetAllItems();
             return Ok(allItems);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetItemById(int id)
+        public async Task<ActionResult> GetItemById(int id)
         {
             var item = await _itemServices.GetItemById(id);
             return Ok(item);
         }
         [HttpPost]
-        public async Task<IActionResult> AddItem(Item item)
+        public async Task<ActionResult> AddItem(Item item)
         {
             await _itemServices.AddItem(item);
             return Ok(item);
         }
         [HttpPut]
-        public async Task<IActionResult>UpdateItem(Item item)
+        public async Task<ActionResult>UpdateItem(Item item)
         {
             await _itemServices.UpdateItem(item);
             return Ok(item);
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteItem(int id)
+        public async Task<ActionResult> DeleteItem(int id)
         {
             await _itemServices.DeleteItem(id);
             return Ok();
