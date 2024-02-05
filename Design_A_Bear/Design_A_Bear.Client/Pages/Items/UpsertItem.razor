@@ -3,9 +3,11 @@
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
 @using Microsoft.AspNetCore.Authorization
+@inject NavigationManager NavigationManager
 @inject IItemService ItemService
 @rendermode InteractiveAuto
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Admin")]
+
 
 <div class="container mt-5 primaryBg rounded p-3">
     @if(Id == 0)
@@ -51,7 +53,7 @@
                         <ValidationMessage For="() => item.Category" />
                     </div>
            
-                <button type="submit" class="btn btn-light">Add Product</button>
+                    <button type="submit" class="btn btn-light">@(item.Id==0?"Add Product":"Update Product")</button>
             </EditForm>
         </div>
             <div class="mt-3 col-md-6 col-12">
@@ -79,16 +81,28 @@
 
     async Task HandleSubmit()
     {
-        await ItemService.AddItem(item);
-        var result = item; 
-    }
-    // protected override async Task OnInitializedAsync()
-    // {
+        if (Id != 0)
+        {
+            await ItemService.UpdateItem(item);
+        }
+        else
+        {
+            await ItemService.AddItem(item);
+        }
+        NavigationManager.NavigateTo("/viewitems");
 
-    // }
+    }
     private string base64String = string.Empty;
     private string imageSource = string.Empty;
 
+    protected override async Task OnInitializedAsync()
+    {
+        if(Id != 0)
+        {
+            item = await ItemService.GetItemById(Id);
+            imageSource = $"data:image/*;base64,{item.ImgBase64}";
+        }
+    }
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
