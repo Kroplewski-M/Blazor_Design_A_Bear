@@ -34,7 +34,15 @@ namespace Design_A_Bear.Services
         public async Task<bool> DeleteItem(int id)
         {
             var result = await _httpClient.DeleteAsync($"/api/Item/{id}");
-            return await result.Content.ReadFromJsonAsync<bool>();
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+                throw new Exception($"Failed to add item. Status code: {result}");
+            }
+            
         }
 
         public async Task<List<Item>> GetAllItems()

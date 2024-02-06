@@ -1,0 +1,30 @@
+﻿@using Design_A_Bear.Models
+@using Design_A_Bear.Services
+@inject IItemService ItemService
+
+<h3>DeleteItem</h3>
+
+<div class="" style="width:100vw;height:100vh;backdrop-filter: blur(8px);position:absolute;top:0px;left:0px;display: flex;justify-content: center;">
+    <div class="rounded bg-primary d-flex flex-column align-items-center" style="width:300px; height:300px;align-self: center;">
+        <h3 class="text-center fw-bold text-center fs-2 text-light pt-4 px-2">Are you sure you want to delete: <span class="text-danger"> @item.Name </span></h3>
+        <div class="pt-4">
+            <button class="btn btn-primary" @onclick="@(CloseDeleteItem)">Cancel</button>
+            <button class="btn btn-danger" onclick="@(()=>DeleteItemFromDb())">Delete</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Item item { get; set; }
+    [Parameter]
+    public EventCallback CloseDeleteItem { get; set; }
+    [Parameter]
+    public EventCallback CloseAndDeleteItem { get; set; }
+
+    private async Task DeleteItemFromDb()
+    {
+        await ItemService.DeleteItem(item.Id);
+        CloseAndDeleteItem.InvokeAsync();
+    }
+}

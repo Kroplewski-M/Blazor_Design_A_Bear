@@ -41,7 +41,11 @@ namespace Design_A_Bear.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(int id)
         {
-            await _itemServices.DeleteItem(id);
+            var success = await _itemServices.DeleteItem(id);
+            if (!success)
+            {
+                return NotFound();
+            }
             return Ok();
         }
     }
