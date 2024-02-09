@@ -1,13 +1,18 @@
 ﻿@page "/browse"
 @using Design_A_Bear.Services
 @using Design_A_Bear.Models
+@using Design_A_Bear.Client.Pages.components
 @inject IItemService ItemService
 @rendermode InteractiveAuto
 
 <PageTitle>Browse Products</PageTitle>
 
-<h3>Browse Products</h3>
+<h3 class="fw-bold mt-4 fs-1">Browse Products</h3>
 
+@foreach (var item in items)
+{
+    <ItemCard Item="@item" />
+}
 
 @code {
     List<Item> items = new List<Item>();

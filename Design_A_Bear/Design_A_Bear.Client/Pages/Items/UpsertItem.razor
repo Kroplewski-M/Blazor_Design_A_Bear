@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Authorization
 @inject NavigationManager NavigationManager
 @inject IItemService ItemService
+@inject IImageService ImageService
 @rendermode InteractiveAuto
 @attribute [Authorize(Roles = "Admin")]
 
@@ -96,7 +97,7 @@
         if(Id != 0)
         {
             item = await ItemService.GetItemById(Id);
-            imageSource = $"data:image/*;base64,{item.ImgBase64}";
+            imageSource = ImageService.ConvertBase64ToImage(item.ImgBase64);
         }
     }
 

@@ -3,12 +3,18 @@
 @using Design_A_Bear.Services
 @using Microsoft.AspNetCore.Authorization
 @using Design_A_Bear.Client.Pages.components
+@inject IImageService ImageService
 @inject NavigationManager NavigationManager
 @inject IItemService ItemService
 @rendermode InteractiveAuto
 @attribute [Authorize(Roles ="Admin")]
 
-<h3 class="fw-bold mt-4 mb-4">View all Items</h3>
+<div class="d-flex mt-4 mb-4">
+    <h3 class=" fw-bold ">View all Items</h3>
+    <div class="ms-3">
+        <a href="/upsertitem" class="btn btn-primary fw-bold">Add Products</a>
+    </div>
+</div>
 @if(items.Count == 0)
 {
     <p class="fw-bold">Loading...</p>
@@ -31,7 +37,7 @@ else
             {
                 <tr>
                     <td scope="row">@item.Id</td>
-                    <td><img src="@getImageSource(item.ImgBase64)" alt="@item.Name image" style="width: 100px; height: 100px;" /></td>
+                    <td><img src="@ImageService.ConvertBase64ToImage(item.ImgBase64)" alt="@item.Name image" style="width: 100px; height: 100px;" /></td>
                     <td>@item.Name</td>
                     <td>£@item.Price.ToString("F2")</td>
                     <td>
@@ -58,10 +64,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         items = await ItemService.GetAllItems();
-    }
-    private string getImageSource(string base64)
-    {
-        return $"data:image/png;base64,{base64}";
     }
     private void EditItem(int id)
     {

@@ -14,4 +14,5 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 builder.Services.AddScoped<IItemService,ClientItemService>();
+builder.Services.AddScoped<IImageService,ImageService>();
 await builder.Build().RunAsync();
