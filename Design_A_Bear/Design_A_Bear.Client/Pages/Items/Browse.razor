@@ -8,17 +8,26 @@
 <PageTitle>Browse Products</PageTitle>
 
 <h3 class="fw-bold mt-4 fs-1">Browse Products</h3>
-
-@foreach (var item in items)
+@if(items.Count != 0)
 {
-    <ItemCard Item="@item" />
+    <div class="d-flex mt-5">
+        @foreach (var item in items)
+        {
+            <div class="col-2" @key="item.Id">
+                <ItemCard Item="@item" />
+            </div>
+        }
+    </div>
+
 }
 
 @code {
     List<Item> items = new List<Item>();
 
+
     protected override async Task OnInitializedAsync()
     {
         items = await ItemService.GetAllItems();
     }
+
 }
