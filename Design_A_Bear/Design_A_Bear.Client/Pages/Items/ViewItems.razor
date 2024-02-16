@@ -6,7 +6,7 @@
 @inject IImageService ImageService
 @inject NavigationManager NavigationManager
 @inject IItemService ItemService
-@rendermode InteractiveAuto
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
 @attribute [Authorize(Roles ="Admin")]
 
 <div class="d-flex mt-4 mb-4">

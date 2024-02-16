@@ -3,7 +3,7 @@
 @using Design_A_Bear.Models
 @using Design_A_Bear.Client.Pages.components
 @inject IItemService ItemService
-@rendermode InteractiveAuto
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
 
 <PageTitle>Browse Products</PageTitle>
 
