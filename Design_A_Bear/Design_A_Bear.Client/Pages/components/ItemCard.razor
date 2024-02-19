@@ -1,21 +1,20 @@
 ﻿@inject IImageService ImageService
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
+@inject NavigationManager NavigationManager
 
-
-<div class="border-top pt-2 me-5 rounded" @onclick="Redirect" >
+<div class="border-top pt-2 me-5 rounded itemCard" @onclick="Redirect" style="cursor:pointer;" >
         <div style="width:200px;height:250px;margin-left:auto;margin-right:auto;">
             <img src="@ImageService.ConvertBase64ToImage(Item.ImgBase64)" alt="@Item.Name image" class="" style="width:200px;height:200px;" />
         </div>
-    <div class="bg-secondary rounded-bottom p-3">
+    <div class="bg-secondary rounded-bottom p-3 position-relative">
         <hr class="text-light mb-2"/>
         <h5 class="fw-bold text-light">@Item.Name</h5>
         <div class="d-flex justify-content-between mt-3">
             <p class="mt-2 text-secondary fw-bold text-light">@String.Format("{0:C}", @Item.Price) </p>
-            <button @onclick="Redirect2" class="btn btn-primary fw-bold rounded text-light z-3 position-relative"><i class="bi bi-cart-plus-fill"></i> Add to Basket</button>
+            <button @onclick:stopPropagation="@true" @onclick="Redirect2" class="btn btn-primary fw-bold rounded text-light z-3"><i class="bi bi-cart-plus-fill"></i> Add to Basket</button>
         </div>
     </div>
-    @hello
 </div>
 
 @code {
@@ -26,7 +25,7 @@
     private string hello = "we";
     private void Redirect()
     {
-        hello = "Hello";
+        NavigationManager.NavigateTo($"/ViewProduct/{Item.Id}");
     }
     private void Redirect2()
     {

@@ -94,3 +94,10 @@ h1:focus {
 .mainPage{
     min-height: 100vh;
 }
+.itemCard {
+    transition: transform 0.2s;
+}
+.itemCard:hover {
+    box-shadow: 10px 10px 5px lightblue;
+    transform: scale(1.1);
+}
