@@ -1,10 +1,28 @@
-﻿@page "/ViewProduct/{Id:int}"
+﻿@inject IItemService ItemService
+@using Design_A_Bear.Models
+@using Design_A_Bear.Services
 
-<h3>ViewProduct</h3>
-<p>@Id</p>
+@page "/ViewProduct/{Id:int}"
 
+
+@if(item != null)
+{
+    <h3>@item.Name</h3>
+    <p>@item.Description</p>
+    <p>@item.Price</p>
+}
 
 @code {
     [Parameter]
     public int Id { get; set; } = 0;
+
+    private Item item = new Item();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(Id != 0)
+        {
+            item = await ItemService.GetItemById(Id);
+        }
+    }
 }
