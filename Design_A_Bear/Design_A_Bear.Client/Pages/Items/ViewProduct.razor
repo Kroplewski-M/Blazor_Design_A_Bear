@@ -1,15 +1,28 @@
 ﻿@inject IItemService ItemService
+@inject IImageService ImageService
+@inject NavigationManager NavigationManager
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
 
 @page "/ViewProduct/{Id:int}"
 
+<a class="btn btn-primary btn-lg mt-5" href="/browse">Back</a>
 
 @if(item != null)
 {
-    <h3>@item.Name</h3>
-    <p>@item.Description</p>
-    <p>@item.Price</p>
+    <div class="row mt-5 rounded justify-content-center">
+       <div class="col-md-3 col-12">
+           <img class="img-fluid rounded" style="max-width:300px;" src="@ImageService.ConvertBase64ToImage(item.ImgBase64)" />
+       </div>
+       <div class="col-md-6 col-12 ps-5">
+           <h1 class="fw-bold">@item.Name</h1>
+           <p style="max-width:500px;">@item.Description</p>
+           <h3 class="fw-bold">£@item.Price.ToString("F2")</h3>
+            <button class="btn btn-primary btn-lg"><i class="bi bi-cart-plus-fill"></i> Add To Basket</button>
+            <button class="btn btn-danger btn-lg mt-3 mt-md-0"><i class="bi bi-heart-fill"></i> Add To Wishlist</button>
+
+       </div>
+   </div>
 }
 
 @code {
