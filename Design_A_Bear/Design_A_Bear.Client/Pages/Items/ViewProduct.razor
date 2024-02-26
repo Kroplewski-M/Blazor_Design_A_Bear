@@ -16,10 +16,25 @@
        </div>
        <div class="col-md-6 col-12 ps-5">
            <h1 class="fw-bold">@item.Name</h1>
-           <p style="max-width:500px;">@item.Description</p>
-           <h3 class="fw-bold">£@item.Price.ToString("F2")</h3>
+           <hr />
+           <h5 style="max-width:500px;">@item.Description</h5>
+           <h3 class="fw-bold mt-5">£@item.Price.ToString("F2")</h3>
+           <div class="d-flex pb-3">
+            <select class="me-3">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
             <button class="btn btn-primary btn-lg"><i class="bi bi-cart-plus-fill"></i> Add To Basket</button>
-            <button class="btn btn-danger btn-lg mt-3 mt-md-0"><i class="bi bi-heart-fill"></i> Add To Wishlist</button>
+           </div>
+            <button class="btn btn-danger btn-lg mt-md-0"><i class="bi bi-heart-fill"></i> Add To Wishlist</button>
 
        </div>
    </div>
