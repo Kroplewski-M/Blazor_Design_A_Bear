@@ -9,6 +9,7 @@ namespace Design_A_Bear.Models
 {
     public class Item
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
