@@ -18,11 +18,14 @@
             </div>
         }
     </div>
-
+}
+else
+{
+    <p class="fs-5">loading products...</p>
 }
 
 @code {
-    List<Item> items = new List<Item>();
+    List<Item> items = new();
 
 
     protected override async Task OnInitializedAsync()
