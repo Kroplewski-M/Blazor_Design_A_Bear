@@ -8,10 +8,16 @@
 <PageTitle>Browse Products</PageTitle>
 
 <h3 class="fw-bold mt-4 fs-1">Browse Products</h3>
+<div class="row">
+    <div class="col-md-3 col-12">
+        <InputText type="text" class="form-control border border-light-subtle border-3 " placeholder="Search for product..." TValue="string" Value="@search" ValueChanged="input =>Search(input)" ValueExpression="@(()=>search)" />
+    </div>
+</div>
+
 @if(items.Count != 0)
 {
     <div class="d-flex flex-md-row flex-column mt-5 flex-wrap">
-        @foreach (var item in items)
+        @foreach (var item in FilteredItems)
         {
             <div class="col-md-4 col-lg-3 col-12 mt-5 mt-md-10" @key="item.Id">
                 <ItemCard Item="@item" />
@@ -26,11 +32,21 @@ else
 
 @code {
     List<Item> items = new();
+    List<Item> FilteredItems = new();
 
+    private string ?search;
 
     protected override async Task OnInitializedAsync()
     {
         items = await ItemService.GetAllItems();
+        FilteredItems = items;
+        search = "";
+    }
+
+    void Search(string input)
+    {
+        search = input;
+        FilteredItems = items.Where(x => x.Name.ToLower().Contains(search.ToLower())).ToList();
     }
 
 }
