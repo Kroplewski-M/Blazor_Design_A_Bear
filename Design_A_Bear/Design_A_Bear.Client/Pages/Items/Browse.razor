@@ -13,7 +13,9 @@
         <InputText type="text" class="form-control border border-light-subtle border-3 " placeholder="Search for product..." TValue="string" Value="@search" ValueChanged="input =>Search(input)" ValueExpression="@(()=>search)" />
     </div>
 </div>
-
+<div class="mt-1">
+    <div class="btn btn-primary" @onclick="Sort">Sort @(sortType == SortType.Desc ? new MarkupString("<i class='bi bi-arrow-down'></i>") : new MarkupString("<i class='bi bi-arrow-up'></i>"))</div>
+</div>
 @if(items.Count != 0)
 {
     <div class="d-flex flex-md-row flex-column mt-5 flex-wrap">
@@ -49,4 +51,31 @@ else
         FilteredItems = items.Where(x => x.Name.ToLower().Contains(search.ToLower())).ToList();
     }
 
+    enum SortType
+    {
+        Asc,
+        Desc
+    }
+    SortType sortType = SortType.Desc;
+
+    void Sort()
+    {
+        if (sortType == SortType.Asc)
+        {
+            sortType = SortType.Desc;
+        }
+        else
+        {
+            sortType = SortType.Asc;
+        }
+
+        if (sortType == SortType.Asc)
+        {
+            FilteredItems = FilteredItems.OrderBy(x => x.Price).ToList();
+        }
+        else
+        {
+            FilteredItems = FilteredItems.OrderByDescending(x => x.Price).ToList();
+        }
+    }
 }
