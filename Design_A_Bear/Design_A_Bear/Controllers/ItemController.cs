@@ -20,6 +20,13 @@ namespace Design_A_Bear.Controllers
             var allItems = await _itemServices.GetAllItems();
             return Ok(allItems);
         }
+
+        [HttpGet("Category/{category}")]
+        public async Task<ActionResult> GetItemsByCategory([AsParameters]string category)
+        {
+            var items = await _itemServices.GetItemsByCategory(category);
+            return Ok(items);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult> GetItemById(int id)
         {

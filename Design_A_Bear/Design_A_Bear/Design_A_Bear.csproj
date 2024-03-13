@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="APICalls\**" />
+    <Content Remove="APICalls\**" />
+    <EmbeddedResource Remove="APICalls\**" />
+    <None Remove="APICalls\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Design_A_Bear.DataAccess\Design_A_Bear.DataAccess.csproj" />
     <ProjectReference Include="..\..\Design_A_Bear.Models\Design_A_Bear.Models.csproj" />
     <ProjectReference Include="..\..\Design_A_Bear.Services\Design_A_Bear.Services.csproj" />
