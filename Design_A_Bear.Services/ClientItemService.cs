@@ -51,6 +51,12 @@ namespace Design_A_Bear.Services
             return result;
         }
 
+        public async Task<List<Item>> GetItemsByCategory(string category)
+        {
+            var result = await  _httpClient.GetFromJsonAsync<List<Item>>($"/api/Item/Category/{category}");
+            return result;
+        }
+
         public async Task<Item> GetItemById(int id)
         {
             var result = await _httpClient.GetFromJsonAsync<Item>($"/api/Item/{id}");

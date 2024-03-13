@@ -42,6 +42,12 @@ namespace Design_A_Bear.Services
             return items;
         }
 
+        public async Task<List<Item>> GetItemsByCategory(string category)
+        {
+            List<Item>items = await _db.Items.Where(item => item.Category == category).ToListAsync();
+            return items;
+        }
+
         public async Task<Item> GetItemById(int id)
         {
             if(id == 0)
