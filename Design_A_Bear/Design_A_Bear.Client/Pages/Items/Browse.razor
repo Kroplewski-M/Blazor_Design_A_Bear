@@ -17,7 +17,7 @@
 <div class="mt-3">
     <div class="btn btn-primary" @onclick="Sort">Sort @(sortType == SortType.Desc ? new MarkupString("<i class='bi bi-arrow-down'></i>") : new MarkupString("<i class='bi bi-arrow-up'></i>"))</div>
 </div>
-@if(items.Count != 0)
+@if (FilteredItems.Count != 0)
 {
     <div class="d-flex flex-md-row flex-column mt-3 flex-wrap">
         @foreach (var item in FilteredItems)
