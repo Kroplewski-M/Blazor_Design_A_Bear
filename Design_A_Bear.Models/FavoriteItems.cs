@@ -13,8 +13,6 @@ namespace Design_A_Bear.Models
         [Key]
         public int Id { get; set; }
 
-        //Foreign Keys
-        public IdentityUser User { get; set; }
         public string UserId { get; set; }
 
         public Item Item { get; set; }

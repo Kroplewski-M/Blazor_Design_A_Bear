@@ -2,4 +2,4 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 @hostname=localhost
 @port=7264
-Get https://{{hostname}}:{{port}}/api/item/Category/Clothing
+Get https://{{hostname}}:{{port}}/api/item
