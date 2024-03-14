@@ -17,7 +17,14 @@
 </div>
 @if(items.Count == 0)
 {
-    <p class="fw-bold">Loading...</p>
+    if (isLoaded)
+    {
+        <p class="fs-5">No products found...</p>
+    }
+    else
+    {
+        <p class="fs-5">loading products...</p>
+    }
 }
 else
 {
@@ -60,10 +67,12 @@ else
     private List<Item> items = new List<Item>();
     private bool showDeleteItem = false;
     private Item itemToDelete = new Item();
+    private bool isLoaded = false;
 
     protected override async Task OnInitializedAsync()
     {
         items = await ItemService.GetAllItems();
+        isLoaded = true;
     }
     private void EditItem(int id)
     {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Design_A_Bear.DataAccess;
 using Design_A_Bear.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Design_A_Bear.Services
@@ -43,6 +44,14 @@ namespace Design_A_Bear.Services
             _db.FavoriteItems.Remove(item);
             await _db.SaveChangesAsync();
             return item;
+        }
+
+        public async Task<List<FavoriteItems>> GetAllFavorites(string UserId)
+        {
+            var favorites = await _db.FavoriteItems.Where(f => f.UserId == UserId)
+                .Include(f => f.Item).ToListAsync();
+
+            return favorites;
         }
     }
 }

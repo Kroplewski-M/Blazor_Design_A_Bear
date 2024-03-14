@@ -9,5 +9,6 @@ namespace Design_A_Bear.Services
         public Task<bool> IsInFavorites(string UserId, int ItemId);
         public Task<FavoriteItems> AddToFavorites(FavoriteItems item);
         public Task<FavoriteItems> RemoveFromFavorites(int id);
+        public Task<List<FavoriteItems>> GetAllFavorites(string UserId);
     }
 }

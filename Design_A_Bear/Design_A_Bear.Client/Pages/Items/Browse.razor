@@ -30,13 +30,21 @@
 }
 else
 {
-    <p class="fs-5">loading products...</p>
+    if (isLoaded)
+    {
+        <p class="fs-5">No products found...</p>
+    }
+    else
+    {
+        <p class="fs-5">loading products...</p>
+    }
 }
 
 @code {
     [Parameter] 
     public string category { get; set; } = "";
 
+    private bool isLoaded = false;
     private string SearchType = "";
 
     List<Item> items = new();
@@ -64,6 +72,7 @@ else
  
         FilteredItems = items;
         searchProduct = "";
+        isLoaded= true;
     }
 
     void SearchProduct(string input)
