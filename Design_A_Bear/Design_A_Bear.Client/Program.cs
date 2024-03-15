@@ -15,4 +15,5 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 builder.Services.AddScoped<IItemService,ClientItemService>();
 builder.Services.AddScoped<IImageService,ImageService>();
+builder.Services.AddScoped<IFavoriteService,ClientFavoriteService>();
 await builder.Build().RunAsync();

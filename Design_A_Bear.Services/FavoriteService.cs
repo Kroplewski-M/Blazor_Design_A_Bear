@@ -15,7 +15,7 @@ namespace Design_A_Bear.Services
         private readonly ApplicationDbContext _db = db;
         public async Task<bool> IsInFavorites(string UserId, int ItemId)
         {
-            FavoriteItems favorite = await _db.FavoriteItems.FindAsync(UserId, ItemId);
+            FavoriteItems favorite = await _db.FavoriteItems.FirstOrDefaultAsync(f => f.UserId == UserId && f.ItemId == ItemId);
             if (favorite == null)
             {
                 return false;
@@ -34,16 +34,16 @@ namespace Design_A_Bear.Services
             return item;
         }
 
-        public async Task<FavoriteItems> RemoveFromFavorites(int id)
+        public async Task<bool> RemoveFromFavorites(int Id)
         {
-            var item = await _db.FavoriteItems.FindAsync(id);
+            var item = await _db.FavoriteItems.FindAsync(Id);
             if (item == null)
             {
                 throw new Exception("Item not found in favorites");
             }
             _db.FavoriteItems.Remove(item);
             await _db.SaveChangesAsync();
-            return item;
+            return true;
         }
 
         public async Task<List<FavoriteItems>> GetAllFavorites(string UserId)

@@ -6,49 +6,43 @@ namespace Design_A_Bear.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemController : ControllerBase
+    public class ItemController(IItemService itemServices) : ControllerBase
     {
-        private readonly IItemService _itemServices;
-
-        public ItemController(IItemService itemServices)
-        {
-            _itemServices = itemServices;
-        }
         [HttpGet]
         public async Task<ActionResult> GetAllItems()
         {
-            var allItems = await _itemServices.GetAllItems();
+            var allItems = await itemServices.GetAllItems();
             return Ok(allItems);
         }
 
         [HttpGet("Category/{category}")]
         public async Task<ActionResult> GetItemsByCategory([AsParameters]string category)
         {
-            var items = await _itemServices.GetItemsByCategory(category);
+            var items = await itemServices.GetItemsByCategory(category);
             return Ok(items);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult> GetItemById(int id)
         {
-            var item = await _itemServices.GetItemById(id);
+            var item = await itemServices.GetItemById(id);
             return Ok(item);
         }
         [HttpPost]
         public async Task<ActionResult> AddItem(Item item)
         {
-            await _itemServices.AddItem(item);
+            await itemServices.AddItem(item);
             return Ok(item);
         }
         [HttpPut]
         public async Task<ActionResult>UpdateItem(Item item)
         {
-            await _itemServices.UpdateItem(item);
+            await itemServices.UpdateItem(item);
             return Ok(item);
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteItem(int id)
         {
-            var success = await _itemServices.DeleteItem(id);
+            var success = await itemServices.DeleteItem(id);
             if (!success)
             {
                 return NotFound();
