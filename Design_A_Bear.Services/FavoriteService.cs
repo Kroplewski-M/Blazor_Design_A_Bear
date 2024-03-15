@@ -34,9 +34,9 @@ namespace Design_A_Bear.Services
             return item;
         }
 
-        public async Task<bool> RemoveFromFavorites(int Id)
+        public async Task<bool> RemoveFromFavorites(string UserId, int ItemId)
         {
-            var item = await _db.FavoriteItems.FindAsync(Id);
+            var item = await _db.FavoriteItems.FirstOrDefaultAsync(f => f.UserId == UserId && f.ItemId == ItemId);
             if (item == null)
             {
                 throw new Exception("Item not found in favorites");

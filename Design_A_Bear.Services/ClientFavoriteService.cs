@@ -28,9 +28,9 @@ namespace Design_A_Bear.Services
             }
         }
 
-        public async Task<bool> RemoveFromFavorites(int id)
+        public async Task<bool> RemoveFromFavorites(string UserId,int ItemId)
         {
-            var result = await _httpClient.DeleteAsync($"/api/Favorite/{id}");
+            var result = await _httpClient.DeleteAsync($"/api/Favorite/{UserId}/{ItemId}");
             if (result.IsSuccessStatusCode)
             {
                 return true;

@@ -1,7 +1,6 @@
 ﻿@inject IItemService ItemService
 @inject IFavoriteService IFavoriteService
 @inject IImageService ImageService
-@using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
@@ -39,7 +38,7 @@
            </div>
            @if (!String.IsNullOrEmpty(userId))
            {
-                <button class="btn btn-danger btn-lg mt-md-0" @onclick="Wishlist"><i class="bi bi-heart-fill"></i>@(isFavorited ? " Added to wishlist" : " Add to wishlist")</button>
+                <button class="btn btn-danger btn-lg mt-md-0" @onclick="Wishlist"><i class="bi bi-heart-fill"></i>@(isFavorited ? " Already in wishlist" : " Add to wishlist")</button>
            }
            else
            {
@@ -71,15 +70,23 @@
         }
     }
 
-    private void Wishlist()
+    private async void Wishlist()
     {
         if (isFavorited)
         {
             isFavorited = false;
+            await IFavoriteService.RemoveFromFavorites(userId,Id);
         }
         else
         {
             isFavorited = true;
+            var favoriteItem = new FavoriteItems()
+            {
+                ItemId = item.Id,
+                Item = item,
+                UserId = userId
+            };
+            await IFavoriteService.AddToFavorites(favoriteItem);
         }
         StateHasChanged();
     }

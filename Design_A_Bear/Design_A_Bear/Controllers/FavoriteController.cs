@@ -29,14 +29,19 @@ namespace Design_A_Bear.Controllers
         [HttpPost]
         public async Task<ActionResult> AddToFavorites(FavoriteItems item)
         {
-            await _favoriteService.AddToFavorites(item);
-            return Ok(item);
+            var itemToAdd = new FavoriteItems
+            {
+                UserId = item.UserId,
+                ItemId = item.ItemId
+            };
+            await _favoriteService.AddToFavorites(itemToAdd);
+            return Ok(itemToAdd);
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult> RemoveFromFavorites(int Id)
+        [HttpDelete("{UserId}/{ItemId}")]
+        public async Task<ActionResult> RemoveFromFavorites(string UserId,int ItemId)
         {
-            await _favoriteService.RemoveFromFavorites(Id);
+            await _favoriteService.RemoveFromFavorites(UserId,ItemId);
             return Ok();
         }
     }
