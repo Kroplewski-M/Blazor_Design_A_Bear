@@ -16,4 +16,6 @@ builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticat
 builder.Services.AddScoped<IItemService,ClientItemService>();
 builder.Services.AddScoped<IImageService,ImageService>();
 builder.Services.AddScoped<IFavoriteService,ClientFavoriteService>();
+builder.Services.AddScoped<IBasketService, ClientBasketService>();
+
 await builder.Build().RunAsync();
