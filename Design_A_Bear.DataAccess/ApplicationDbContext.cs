@@ -9,6 +9,7 @@ namespace Design_A_Bear.DataAccess
     {
         public DbSet<Item>Items { get; set; }
         public DbSet<FavoriteItems>FavoriteItems { get; set; }
+        public DbSet<BasketItem>BasketItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -19,6 +20,8 @@ namespace Design_A_Bear.DataAccess
 
 
             modelBuilder.Entity<FavoriteItems>().HasOne(f => f.Item).WithMany().HasForeignKey(f => f.ItemId).IsRequired();
+
+            modelBuilder.Entity<BasketItem>().HasOne(f=>f.Item).WithMany().HasForeignKey(f => f.ItemId).IsRequired();
 
         }
     }
