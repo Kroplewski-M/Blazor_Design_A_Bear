@@ -1,6 +1,11 @@
 ﻿@page "/Basket"
-
-
+@using Design_A_Bear.Services
+@using Design_A_Bear.Models
+@using System.Security.Claims
+@inject IBasketService BasketService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IImageService ImageService
+@rendermode InteractiveAuto
 <div class="container">
     <h1 class="pt-2">Basket</h1>
     <table class="table">
@@ -14,29 +19,26 @@
             </tr>
         </thead>
         <tbody>
-            @for(int i=0;i<=5;i++){
+            @foreach (var item in basketItems)
+            {
                 
             
             <tr>
                 <th scope="row">
-                    <img src="heroImg.png" style="width:80px;height:50px" /> Bearlieve Teddy Bear
+                        <img src="@ImageService.ConvertBase64ToImage(item.Item.ImgBase64)" style="width:80px;height:50px" /> @item.Item.Name
                 </th>
                 <td>
-                    £30.00
+                    £@item.Item.Price.ToString("F2")
                 </td>
                 <td>
-                    <select>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
+                    <select @bind="item.Quantity">
+                        @for (int i = 1; i <= 8; i++)
+                        {
+                            <option value="@i" selected="@(item.Quantity == i)">@i</option>
+                        }
                     </select>
                 </td>
-                <td>£60.00</td>
+                    <td>£@((item.Item.Price * item.Quantity).ToString("F2"))</td>
                 <td><button class="btn btn-danger">Delete</button></td>
 
             </tr>
@@ -50,5 +52,18 @@
 </div>
 
 @code {
+    private List<BasketItem>basketItems = new();
+    private string userId = "";
 
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!String.IsNullOrEmpty(userId))
+        {
+            basketItems = await BasketService.GetAllBasketItems(userId);
+        }
+    }
 }

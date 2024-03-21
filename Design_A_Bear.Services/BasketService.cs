@@ -22,7 +22,7 @@ namespace Design_A_Bear.Services
 
         public async Task<bool> RemoveFromBasket(int itemId, string userId)
         {
-            BasketItem item = await db.BasketItems.FirstOrDefaultAsync(b => b.ItemId == itemId && b.UserId == userId);
+            BasketItem item = await _db.BasketItems.FirstOrDefaultAsync(b => b.ItemId == itemId && b.UserId == userId);
             if (item == null)
             {
                 return false;
@@ -34,7 +34,7 @@ namespace Design_A_Bear.Services
 
         public async Task<List<BasketItem>> GetAllBasketItems(string userId)
         {
-            List<BasketItem> items = await _db.BasketItems.Where(b => b.UserId == userId)
+            var items = await _db.BasketItems.Where(b => b.UserId == userId)
                 .Include(b => b.Item).ToListAsync();
             return items;
         }

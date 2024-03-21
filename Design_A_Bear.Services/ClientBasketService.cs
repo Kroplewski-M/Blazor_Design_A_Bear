@@ -30,9 +30,10 @@ namespace Design_A_Bear.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<BasketItem>> GetAllBasketItems(string userId)
+        public async Task<List<BasketItem>> GetAllBasketItems(string userId)
         {
-            throw new NotImplementedException();
+            var result = await _httpClient.GetFromJsonAsync<List<BasketItem>>($"/api/Basket/{userId}");
+            return result;
         }
 
         public Task<bool> UpdateQuantity(int itemId, string userId, int quantity)
