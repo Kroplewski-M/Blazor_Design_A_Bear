@@ -1,6 +1,7 @@
 ﻿@inject IItemService ItemService
 @inject IFavoriteService IFavoriteService
 @inject IImageService ImageService
+@inject IBasketService BasketService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
@@ -22,7 +23,7 @@
            <h5 style="max-width:500px;">@item.Description</h5>
            <h3 class="fw-bold mt-5">£@item.Price.ToString("F2")</h3>
            <div class="d-flex pb-3">
-               <select class="me-3">
+               <select class="me-3" @bind="Quantity">
                    <option value="1">1</option>
                    <option value="2">2</option>
                    <option value="3">3</option>
@@ -34,7 +35,7 @@
                    <option value="9">9</option>
                    <option value="10">10</option>
                </select>
-               <button class="btn btn-primary btn-lg"><i class="bi bi-cart-plus-fill"></i> Add To Basket</button>
+                <button class="btn btn-primary btn-lg" @onclick="AddToBasket"><i class="bi bi-cart-plus-fill"></i> Add To Basket</button>
            </div>
            @if (!String.IsNullOrEmpty(userId))
            {
@@ -52,6 +53,7 @@
     [Parameter]
     public int Id { get; set; } = 0;
 
+    private int Quantity = 1;
     private Item item = new Item();
     private bool isFavorited = false;
     private string userId = "";
@@ -89,5 +91,17 @@
             await IFavoriteService.AddToFavorites(favoriteItem);
         }
         StateHasChanged();
+    }
+    private async void AddToBasket()
+    {
+        var basketItem = new BasketItem()
+        {
+            ItemId = item.Id,
+            Item = item,
+            UserId = userId,
+            Quantity = this.Quantity,
+
+        };
+        await BasketService.AddToBasket(basketItem);
     }
 }

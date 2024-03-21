@@ -203,15 +203,15 @@ namespace Design_A_Bear.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1c61b462-2869-4bc0-8ae5-b9cda73b6c99",
-                            ConcurrencyStamp = "81d55358-1c7a-42a3-b479-221c67894b5d",
+                            Id = "2bfced7a-6dcf-4b11-a3bc-bd72f048d277",
+                            ConcurrencyStamp = "01fbe2ef-0a46-47a0-a86e-99a9b4eae78e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "d74de67b-bc4a-4eb9-bbf3-3b551b5c9362",
-                            ConcurrencyStamp = "e5d520d4-bfde-4f94-bd74-7752f679e2f1",
+                            Id = "af41db86-84b4-4083-b8bb-f93672fe347d",
+                            ConcurrencyStamp = "1f68a5a8-36c8-46c0-831b-663af6cd5988",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

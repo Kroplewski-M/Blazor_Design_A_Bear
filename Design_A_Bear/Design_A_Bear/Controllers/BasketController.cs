@@ -13,8 +13,14 @@ namespace Design_A_Bear.Controllers
         [HttpPost]
         public async Task<ActionResult> AddToBasket(BasketItem item)
         {
-            await _basketService.AddToBasket(item.ItemId, item.UserId, item.Quantity);
-            return Ok(item);
+            BasketItem newItem = new BasketItem
+            {
+                UserId = item.UserId,
+                ItemId = item.ItemId,
+                Quantity = item.Quantity
+            };
+            await _basketService.AddToBasket(newItem);
+            return Ok(newItem);
         }
 
         [HttpDelete("{UserId}/{ItemId}")]

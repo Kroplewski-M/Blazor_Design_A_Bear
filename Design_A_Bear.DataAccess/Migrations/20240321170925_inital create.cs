@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Design_A_Bear.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreate : Migration
+    public partial class initalcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,31 +52,6 @@ namespace Design_A_Bear.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IdentityUser",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,23 +178,38 @@ namespace Design_A_Bear.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BasketItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BasketItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BasketItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FavoriteItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ItemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FavoriteItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FavoriteItems_IdentityUser_UserId",
-                        column: x => x.UserId,
-                        principalTable: "IdentityUser",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_FavoriteItems_Items_ItemId",
                         column: x => x.ItemId,
@@ -233,8 +223,8 @@ namespace Design_A_Bear.DataAccess.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5768980e-65c3-41a0-bc7c-9dd307cc4979", "b174d9a1-c900-4025-8b1b-322a06ad6c89", "User", "USER" },
-                    { "6deb6b1b-b80f-49f0-abe2-c54378656e3b", "488c62e1-10bc-4ae1-8069-68106d51b675", "Admin", "ADMIN" }
+                    { "2bfced7a-6dcf-4b11-a3bc-bd72f048d277", "01fbe2ef-0a46-47a0-a86e-99a9b4eae78e", "User", "USER" },
+                    { "af41db86-84b4-4083-b8bb-f93672fe347d", "1f68a5a8-36c8-46c0-831b-663af6cd5988", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -277,14 +267,14 @@ namespace Design_A_Bear.DataAccess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FavoriteItems_ItemId",
-                table: "FavoriteItems",
+                name: "IX_BasketItems_ItemId",
+                table: "BasketItems",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FavoriteItems_UserId",
+                name: "IX_FavoriteItems_ItemId",
                 table: "FavoriteItems",
-                column: "UserId");
+                column: "ItemId");
         }
 
         /// <inheritdoc />
@@ -306,6 +296,9 @@ namespace Design_A_Bear.DataAccess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BasketItems");
+
+            migrationBuilder.DropTable(
                 name: "FavoriteItems");
 
             migrationBuilder.DropTable(
@@ -313,9 +306,6 @@ namespace Design_A_Bear.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUser");
 
             migrationBuilder.DropTable(
                 name: "Items");

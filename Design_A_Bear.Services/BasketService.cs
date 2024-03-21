@@ -12,16 +12,11 @@ namespace Design_A_Bear.Services
     public class BasketService(ApplicationDbContext db) : IBasketService
     {
         private readonly ApplicationDbContext _db = db;
-        public async Task<BasketItem> AddToBasket(int itemId, string userId,int quantity)
+        public async Task<BasketItem> AddToBasket(BasketItem item)
         {
-            BasketItem item = new BasketItem
-            {
-                ItemId = itemId,
-                UserId = userId,
-                Quantity = quantity
-            };
-            await db.BasketItems.AddAsync(item);
-            await db.SaveChangesAsync();
+
+            await _db.BasketItems.AddAsync(item);
+            await _db.SaveChangesAsync();
             return item;
         }
 
@@ -32,27 +27,27 @@ namespace Design_A_Bear.Services
             {
                 return false;
             }
-            db.BasketItems.Remove(item);
-            await db.SaveChangesAsync();
+            _db.BasketItems.Remove(item);
+            await _db.SaveChangesAsync();
             return true;
         }
 
         public async Task<List<BasketItem>> GetAllBasketItems(string userId)
         {
-            List<BasketItem> items = await db.BasketItems.Where(b => b.UserId == userId)
+            List<BasketItem> items = await _db.BasketItems.Where(b => b.UserId == userId)
                 .Include(b => b.Item).ToListAsync();
             return items;
         }
 
         public async Task<bool> UpdateQuantity(int itemId, string userId, int quantity)
         {
-            BasketItem item = await db.BasketItems.FirstOrDefaultAsync(b => b.ItemId == itemId && b.UserId == userId);
+            BasketItem item = await _db.BasketItems.FirstOrDefaultAsync(b => b.ItemId == itemId && b.UserId == userId);
             if (item == null)
             {
                 return false;
             }
             item.Quantity = quantity;
-            await db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
             return true;
         }
     }
