@@ -9,50 +9,62 @@
 
 <div class="container">
     <h1 class="pt-2">Basket</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total Price</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in basketItems)
-            {
+    @if(isLoaded && basketItems.Count == 0)
+    {
+        <p class="fs-5">No items in basket...</p>
+    }
+    else if (!isLoaded)
+    {
+        <p class="fs-5">Loading basket...</p>
+    }
+    @if (basketItems.Count > 0)
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <th scope="row">
-                            <img src="@ImageService.ConvertBase64ToImage(item.Item.ImgBase64)" style="width:80px;height:50px" /> @item.Item.Name
-                    </th>
-                    <td>
-                        £@item.Item.Price.ToString("F2")
-                    </td>
-                    <td>
-                        <select @bind="item.Quantity">
-                            @for (int i = 1; i <= 10; i++)
-                            {
-                                <option value="@i" selected="@(item.Quantity == i)">@i</option>
-                            }
-                        </select>
-                    </td>
-                        <td>£@((item.Item.Price * item.Quantity).ToString("F2"))</td>
-                        <td><button class="btn btn-danger" @onclick="() => DeleteItem(item.ItemId)">Delete</button></td>
-
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <div>
-        <h3>Total Price: <strong>£360.00 </strong></h3>
-        <button class="btn btn-primary fs-3">Checkout</button>
-    </div>
+            </thead>
+            <tbody>
+                @foreach (var item in basketItems)
+                {
+                    <tr>
+                        <th scope="row">
+                                <img src="@ImageService.ConvertBase64ToImage(item.Item.ImgBase64)" style="width:80px;height:80px" /> @item.Item.Name
+                        </th>
+                        <td class="py-4">
+                            £@item.Item.Price.ToString("F2")
+                        </td>
+                        <td class="py-4">
+                            <select @bind="item.Quantity">
+                                @for (int i = 1; i <= 10; i++)
+                                {
+                                    <option value="@i" selected="@(item.Quantity == i)">@i</option>
+                                }
+                            </select>
+                        </td>
+                        <td class="py-4">£@((item.Item.Price * item.Quantity).ToString("F2"))</td>
+                        <td class="py-3"><button class="btn btn-danger" @onclick="() => DeleteItem(item.ItemId)">Delete</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <h3>Total Price: <strong>£@getTotalPrice() </strong></h3>
+            <button class="btn btn-primary fs-3">Checkout</button>
+        </div>
+
+    }
 </div>
 
 @code {
     private List<BasketItem>basketItems = new();
     private string userId = "";
+    private bool isLoaded = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,12 +76,23 @@
         {
             basketItems = await BasketService.GetAllBasketItems(userId);
         }
+        isLoaded = true;
     }
     private async void DeleteItem(int itemId)
     {
         await BasketService.RemoveFromBasket(itemId, userId);
         basketItems = basketItems.Where(x => x.ItemId != itemId).ToList();
         StateHasChanged();
+    }
+
+    private string getTotalPrice()
+    {
+        float TotalPrice = 0;
+        foreach (var item in basketItems)
+        {
+            TotalPrice += item.Item.Price * item.Quantity;
+        }
+        return TotalPrice.ToString("F2");
     }
 }
 

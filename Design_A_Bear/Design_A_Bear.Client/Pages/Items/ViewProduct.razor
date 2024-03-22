@@ -88,18 +88,22 @@
     }
     private async void AddToBasket()
     {
-        var basketItem = new BasketItem()
+        if (!String.IsNullOrEmpty(userId))
         {
-            ItemId = item.Id,
-            Item = item,
-            UserId = userId,
-            Quantity = this.Quantity,
+            var basketItem = new BasketItem()
+            {
+                ItemId = item.Id,
+                Item = item,
+                UserId = userId,
+                Quantity = this.Quantity,
 
-        };
-        var checkItem = await BasketService.IsInBasket(basketItem.ItemId, basketItem.UserId);
-        if (checkItem.Id == 0)
-        {
-            await BasketService.AddToBasket(basketItem);
+            };
+            var checkItem = await BasketService.IsInBasket(basketItem.ItemId, basketItem.UserId);
+            if (checkItem.Id == 0)
+            {
+                await BasketService.AddToBasket(basketItem);
+            }
+
         }
     }
 }

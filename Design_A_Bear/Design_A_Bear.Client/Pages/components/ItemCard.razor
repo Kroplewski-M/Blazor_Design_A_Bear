@@ -1,7 +1,10 @@
 ﻿@inject IImageService ImageService
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
+@using System.Security.Claims
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IBasketService BasketService
 
 <div class="border-top pt-2 me-5 rounded itemCard" @onclick="Redirect" style="cursor:pointer;" >
         <div style="width:200px;height:250px;margin-left:auto;margin-right:auto;">
@@ -12,7 +15,7 @@
         <h5 class="fw-bold text-light">@Item.Name</h5>
         <div class="d-flex justify-content-between mt-3">
             <p class="mt-2 text-secondary fw-bold text-light">@String.Format("{0:C}", @Item.Price) </p>
-            <button @onclick:stopPropagation="@true" @onclick="Redirect2" class="btn btn-primary fw-bold rounded text-light z-3"><i class="bi bi-cart-plus-fill"></i> Add to Basket</button>
+            <button @onclick:stopPropagation="@true" @onclick="AddToBasket" class="btn btn-primary fw-bold rounded text-light z-3"><i class="bi bi-cart-plus-fill"></i> Add to Basket</button>
         </div>
     </div>
 </div>
@@ -22,13 +25,39 @@
     [Parameter]
     public Item Item { get; set; }
 
-    private string hello = "we";
+    private string userId = "";
+
     private void Redirect()
     {
         NavigationManager.NavigateTo($"/ViewProduct/{Item.Id}");
     }
-    private void Redirect2()
+    protected override async Task OnInitializedAsync()
     {
-        hello = "Hello 2";
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    }
+    private async void AddToBasket()
+    {
+        if (!String.IsNullOrEmpty(userId))
+        {
+            var basketItem = new BasketItem()
+                {
+                    ItemId = Item.Id,
+                    Item = Item,
+                    UserId = userId,
+                    Quantity = 1,
+
+                };
+            var checkItem = await BasketService.IsInBasket(basketItem.ItemId, basketItem.UserId);
+            if (checkItem.Id == 0)
+            {
+                await BasketService.AddToBasket(basketItem);
+            }
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/login");
+        }
     }
 }
