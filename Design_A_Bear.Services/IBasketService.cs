@@ -14,5 +14,6 @@ namespace Design_A_Bear.Services
         public Task<List<BasketItem>> GetAllBasketItems(string userId);
         public Task<bool> UpdateQuantity(int itemId, string userId, int quantity);
 
+        public Task<BasketItem>IsInBasket(int itemId, string userId);
     }
 }

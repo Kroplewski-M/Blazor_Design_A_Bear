@@ -5,7 +5,8 @@
 @inject IBasketService BasketService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IImageService ImageService
-@rendermode InteractiveAuto
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
 <div class="container">
     <h1 class="pt-2">Basket</h1>
     <table class="table">
@@ -21,27 +22,25 @@
         <tbody>
             @foreach (var item in basketItems)
             {
-                
-            
-            <tr>
-                <th scope="row">
-                        <img src="@ImageService.ConvertBase64ToImage(item.Item.ImgBase64)" style="width:80px;height:50px" /> @item.Item.Name
-                </th>
-                <td>
-                    £@item.Item.Price.ToString("F2")
-                </td>
-                <td>
-                    <select @bind="item.Quantity">
-                        @for (int i = 1; i <= 8; i++)
-                        {
-                            <option value="@i" selected="@(item.Quantity == i)">@i</option>
-                        }
-                    </select>
-                </td>
-                    <td>£@((item.Item.Price * item.Quantity).ToString("F2"))</td>
-                <td><button class="btn btn-danger">Delete</button></td>
+                <tr>
+                    <th scope="row">
+                            <img src="@ImageService.ConvertBase64ToImage(item.Item.ImgBase64)" style="width:80px;height:50px" /> @item.Item.Name
+                    </th>
+                    <td>
+                        £@item.Item.Price.ToString("F2")
+                    </td>
+                    <td>
+                        <select @bind="item.Quantity">
+                            @for (int i = 1; i <= 10; i++)
+                            {
+                                <option value="@i" selected="@(item.Quantity == i)">@i</option>
+                            }
+                        </select>
+                    </td>
+                        <td>£@((item.Item.Price * item.Quantity).ToString("F2"))</td>
+                        <td><button class="btn btn-danger" @onclick="() => DeleteItem(item.ItemId)">Delete</button></td>
 
-            </tr>
+                </tr>
             }
         </tbody>
     </table>
@@ -66,4 +65,11 @@
             basketItems = await BasketService.GetAllBasketItems(userId);
         }
     }
+    private async void DeleteItem(int itemId)
+    {
+        await BasketService.RemoveFromBasket(itemId, userId);
+        basketItems = basketItems.Where(x => x.ItemId != itemId).ToList();
+        StateHasChanged();
+    }
 }
+

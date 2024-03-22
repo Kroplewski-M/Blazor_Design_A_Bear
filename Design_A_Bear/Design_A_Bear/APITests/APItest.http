@@ -2,4 +2,4 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 @hostname=localhost
 @port=7264
-Get https://{{hostname}}:{{port}}/api/Basket/15101603-ee2d-4d6d-97b4-76cbb5f13316
+DELETE https://{{hostname}}:{{port}}/api/Basket/1/15101603-ee2d-4d6d-97b4-76cbb5f13316

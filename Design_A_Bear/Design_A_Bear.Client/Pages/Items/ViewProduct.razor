@@ -24,16 +24,10 @@
            <h3 class="fw-bold mt-5">£@item.Price.ToString("F2")</h3>
            <div class="d-flex pb-3">
                <select class="me-3" @bind="Quantity">
-                   <option value="1">1</option>
-                   <option value="2">2</option>
-                   <option value="3">3</option>
-                   <option value="4">4</option>
-                   <option value="5">5</option>
-                   <option value="6">6</option>
-                   <option value="7">7</option>
-                   <option value="8">8</option>
-                   <option value="9">9</option>
-                   <option value="10">10</option>
+                   @for (int i = 1; i <= 10; i++)
+                   {
+                       <option value="@i">@i</option>
+                   }
                </select>
                 <button class="btn btn-primary btn-lg" @onclick="AddToBasket"><i class="bi bi-cart-plus-fill"></i> Add To Basket</button>
            </div>
@@ -102,6 +96,10 @@
             Quantity = this.Quantity,
 
         };
-        await BasketService.AddToBasket(basketItem);
+        var checkItem = await BasketService.IsInBasket(basketItem.ItemId, basketItem.UserId);
+        if (checkItem.Id == 0)
+        {
+            await BasketService.AddToBasket(basketItem);
+        }
     }
 }

@@ -50,5 +50,15 @@ namespace Design_A_Bear.Services
             await _db.SaveChangesAsync();
             return true;
         }
+
+        public async Task<BasketItem> IsInBasket(int itemId, string userId)
+        {
+            var item = await _db.BasketItems.Include(b => b.Item).FirstOrDefaultAsync(b => b.ItemId == itemId && b.UserId == userId);
+            if (item == null)
+            {
+                return new BasketItem();
+            }
+            return item;
+        }
     }
 }

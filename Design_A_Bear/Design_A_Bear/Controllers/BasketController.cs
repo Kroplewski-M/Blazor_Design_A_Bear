@@ -23,8 +23,8 @@ namespace Design_A_Bear.Controllers
             return Ok(newItem);
         }
 
-        [HttpDelete("{UserId}/{ItemId}")]
-        public async Task<ActionResult> RemoveFromBasket(string UserId, int ItemId)
+        [HttpDelete("{ItemId}/{UserId}")]
+        public async Task<ActionResult> RemoveFromBasket(int ItemId, string UserId)
         {
             await _basketService.RemoveFromBasket(ItemId, UserId);
             return Ok();
@@ -35,6 +35,13 @@ namespace Design_A_Bear.Controllers
         {
             List<BasketItem>items =  await _basketService.GetAllBasketItems(UserId);
             return Ok(items);
+        }
+
+        [HttpGet("{ItemId}/{UserId}")]
+        public async Task<ActionResult> IsInBasket(int ItemId, string UserId)
+        {
+            BasketItem item = await _basketService.IsInBasket(ItemId, UserId);
+            return Ok(item);
         }
 
         [HttpPut]

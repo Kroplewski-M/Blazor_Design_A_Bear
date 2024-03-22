@@ -25,9 +25,14 @@ namespace Design_A_Bear.Services
             }
         }
 
-        public Task<bool> RemoveFromBasket(int itemId, string userId)
+        public async Task<bool> RemoveFromBasket(int itemId, string userId)
         {
-            throw new NotImplementedException();
+            var result = await _httpClient.DeleteAsync($"/api/Basket/{itemId}/{userId}");
+            if (result.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            throw new Exception($"Failed to remove item. Status code: {result}");
         }
 
         public async Task<List<BasketItem>> GetAllBasketItems(string userId)
@@ -36,9 +41,15 @@ namespace Design_A_Bear.Services
             return result;
         }
 
-        public Task<bool> UpdateQuantity(int itemId, string userId, int quantity)
+        public async Task<bool> UpdateQuantity(int itemId, string userId, int quantity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<BasketItem> IsInBasket(int itemId, string userId)
+        {
+            var result = await _httpClient.GetFromJsonAsync<BasketItem>($"/api/Basket/{itemId}/{userId}");
+            return result;
         }
     }
 }

@@ -22,10 +22,7 @@ namespace Design_A_Bear.Services
             {
                 return await result.Content.ReadFromJsonAsync<FavoriteItems>();
             }
-            else
-            {
-                throw new Exception($"Failed to add item. Status code: {result}");
-            }
+            throw new Exception($"Failed to add item. Status code: {result}");
         }
 
         public async Task<bool> RemoveFromFavorites(string UserId,int ItemId)
@@ -35,10 +32,7 @@ namespace Design_A_Bear.Services
             {
                 return true;
             }
-            else
-            {
-                throw new Exception($"Failed to remove item. Status code: {result}");
-            }
+            throw new Exception($"Failed to remove item. Status code: {result}");
         }
 
         public async Task<List<FavoriteItems>> GetAllFavorites(string UserId)
