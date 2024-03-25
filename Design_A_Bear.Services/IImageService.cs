@@ -8,6 +8,6 @@ namespace Design_A_Bear.Services
 {
     public interface IImageService
     {
-        public string ConvertBase64ToImage(string Base64String);
+        public string ConvertBase64ToImage(string Base64String,string ImageType);
     }
 }

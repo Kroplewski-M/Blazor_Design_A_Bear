@@ -44,7 +44,7 @@ else
             {
                 <tr>
                     <td scope="row">@item.Id</td>
-                    <td><img src="@ImageService.ConvertBase64ToImage(item.ImgBase64)" alt="@item.Name image" style="width: 100px; height: 100px;" /></td>
+                    <td><img src="@ImageService.ConvertBase64ToImage(item.ImgBase64,item.ImageType)" alt="@item.Name image" style="width: 100px; height: 100px;" /></td>
                     <td>@item.Name</td>
                     <td>£@item.Price.ToString("F2")</td>
                     <td>

@@ -20,6 +20,7 @@ namespace Design_A_Bear.Models
         [Required]
 
         public string ImgBase64 { get; set; }
+        public string ImageType { get; set; }
 
     }
 }

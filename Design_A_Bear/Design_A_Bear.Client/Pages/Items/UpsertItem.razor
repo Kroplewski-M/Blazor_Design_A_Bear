@@ -25,7 +25,7 @@
                 <DataAnnotationsValidator />
 
                 <div class="form-floating mb-3">
-                    <InputFile class="form-control" placeholder="name@example.com" accept="image/png" OnChange="HandleFileChange"></InputFile>
+                    <InputFile class="form-control" placeholder="name@example.com" accept="image/*" OnChange="HandleFileChange"></InputFile>
                         <label for="floatingInput">Product Image</label>
                         <ValidationMessage For="() => item.ImgBase64" />
                     </div>
@@ -91,13 +91,13 @@
     }
     private string base64String = string.Empty;
     private string imageSource = string.Empty;
-
+    private string imageType = string.Empty;
     protected override async Task OnInitializedAsync()
     {
         if(Id != 0)
         {
             item = await ItemService.GetItemById(Id);
-            imageSource = ImageService.ConvertBase64ToImage(item.ImgBase64);
+            imageSource = ImageService.ConvertBase64ToImage(item.ImgBase64,item.ImageType);
         }
     }
 
@@ -112,10 +112,11 @@
                 await stream.ReadAsync(buffer, 0, buffer.Length);
             }
             base64String = Convert.ToBase64String(buffer);
-
+            imageType = file.ContentType.Split('/')[1];
             
-            imageSource = $"data:image/*;base64,{base64String}";
+            imageSource = $"data:image/{imageType};base64,{base64String}";
             item.ImgBase64 = base64String;
+            item.ImageType = imageType;
         }
     }
 }

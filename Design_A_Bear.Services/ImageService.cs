@@ -8,9 +8,9 @@ namespace Design_A_Bear.Services
 {
     public class ImageService : IImageService
     {
-        public string ConvertBase64ToImage(string Base64String)
+        public string ConvertBase64ToImage(string Base64String, string ImageType)
         {
-            return $"data:image/*;base64,{Base64String}";
+            return $"data:image/{ImageType};base64,{Base64String}";
         }
     }
 }

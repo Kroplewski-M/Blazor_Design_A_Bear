@@ -8,7 +8,7 @@
 
 <div class="border-top pt-2 me-5 rounded itemCard" @onclick="Redirect" style="cursor:pointer;" >
         <div style="width:200px;height:250px;margin-left:auto;margin-right:auto;">
-            <img src="@ImageService.ConvertBase64ToImage(Item.ImgBase64)" alt="@Item.Name image" class="" style="width:250px;height:250px;" />
+            <img src="@ImageService.ConvertBase64ToImage(Item.ImgBase64,Item.ImageType)" alt="@Item.Name image" class="" style="width:250px;height:250px;" />
         </div>
     <div class="bg-secondary rounded-bottom p-3 position-relative">
         <hr class="text-light mb-2"/>

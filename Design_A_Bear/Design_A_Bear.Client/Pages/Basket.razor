@@ -34,7 +34,7 @@
                 {
                     <tr>
                         <th scope="row">
-                                <img src="@ImageService.ConvertBase64ToImage(item.Item.ImgBase64)" style="width:80px;height:80px" /> @item.Item.Name
+                                <img src="@ImageService.ConvertBase64ToImage(item.Item.ImgBase64,item.Item.ImageType)" style="width:80px;height:80px" /> @item.Item.Name
                         </th>
                         <td class="py-4">
                             £@item.Item.Price.ToString("F2")
