@@ -21,6 +21,12 @@ namespace Design_A_Bear.Controllers
             var items = await itemServices.GetItemsByCategory(category);
             return Ok(items);
         }
+        [HttpGet("Amount/{amount}/{category}")]
+        public async Task<ActionResult> FetchSpecificAmount(int amount, string category)
+        {
+            var items = await itemServices.FetchSpecificAmount(amount, category);
+            return Ok(items);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult> GetItemById(int id)
         {

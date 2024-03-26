@@ -1,5 +1,7 @@
 ﻿@page "/"
-
+@using Design_A_Bear.Models
+@using Design_A_Bear.Services
+@inject IItemService ItemService
 
 <PageTitle>Home</PageTitle>
 
@@ -13,11 +15,10 @@
 
 <h3 class="fw-bold pt-2">Shop teddy bears:</h3>
 <div class=" d-flex flex-wrap w-100 overflow-x-scroll pt-2 ">
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
+    @foreach(var item in TeddyBears)
+    {
+        <div class="heroCard me-2 mb-2 mb-md-0">@item.Name</div>
+    }
 </div>
 
 <h3 class="fw-bold pt-4">Shop teddy clothing:</h3>
@@ -28,3 +29,15 @@
     <div class="heroCard me-2 mb-2 mb-md-0"></div>
     <div class="heroCard me-2"></div>
 </div>
+
+@code{
+    private List<Item> TeddyBears = new List<Item>();
+    private List<Item> Clothing = new List<Item>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        TeddyBears = await ItemService.FetchSpecificAmount(5,"Teddy Bear");
+        Clothing = await ItemService.FetchSpecificAmount(5, "Clothing");
+
+    }
+}

@@ -11,5 +11,6 @@ namespace Design_A_Bear.Services
         Task<Item> AddItem(Item item);
         Task<Item> UpdateItem(Item item);
         Task<bool> DeleteItem(int id);
+        Task<List<Item>> FetchSpecificAmount(int amount,string Category);
     }
 }

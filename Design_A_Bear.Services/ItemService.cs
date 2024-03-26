@@ -67,5 +67,11 @@ namespace Design_A_Bear.Services
             _db.SaveChanges();
             return Task.FromResult(item);
         }
+
+        public async Task<List<Item>> FetchSpecificAmount(int amount, string Category)
+        {
+            var items = await _db.Items.Where(x => x.Category == Category).Take(amount).ToListAsync();
+            return items;
+        }
     }
 }

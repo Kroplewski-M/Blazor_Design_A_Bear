@@ -68,5 +68,11 @@ namespace Design_A_Bear.Services
             var result = await _httpClient.PutAsJsonAsync($"/api/Item",item);
             return await result.Content.ReadFromJsonAsync<Item>();
         }
+
+        public async Task<List<Item>> FetchSpecificAmount(int amount, string Category)
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<Item>>($"/api/Item/Amount/{amount}/{Category}");
+            return result;
+        }
     }
 }
