@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Design_A_Bear.Client.Pages.components
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
 @inject IItemService ItemService
@@ -13,21 +14,24 @@
     </div>
 </div>
 
-<h3 class="fw-bold pt-2">Shop teddy bears:</h3>
-<div class=" d-flex flex-wrap w-100 overflow-x-scroll pt-2 ">
+<h3 class="fw-bold pt-2 fs-1">Shop teddy bears:</h3>
+<div class="w-100 overflow-x-scroll pt-2 row">
     @foreach(var item in TeddyBears)
     {
-        <div class="heroCard me-2 mb-2 mb-md-0">@item.Name</div>
+        <div class="col-4">
+            <ItemCard Item="@item" />
+        </div>
     }
 </div>
 
-<h3 class="fw-bold pt-4">Shop teddy clothing:</h3>
-<div class=" d-flex flex-wrap w-100 overflow-x-scroll pt-2 ">
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2 mb-2 mb-md-0"></div>
-    <div class="heroCard me-2"></div>
+<h3 class="fw-bold pt-4 fs-1">Shop teddy clothing:</h3>
+<div class="w-100 overflow-x-scroll pt-2 row">
+    @foreach (var item in Clothing)
+    {
+        <div class="col-4">
+            <ItemCard Item="@item" />
+        </div>
+    }
 </div>
 
 @code{
