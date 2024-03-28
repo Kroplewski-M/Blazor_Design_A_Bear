@@ -3,6 +3,7 @@
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
 @inject IItemService ItemService
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
 
 <PageTitle>Home</PageTitle>
 
@@ -16,21 +17,35 @@
 
 <h3 class="fw-bold pt-2 fs-1">Shop teddy bears:</h3>
 <div class="w-100 overflow-x-scroll pt-2 row">
-    @foreach(var item in TeddyBears)
+    @if(!ItemsLoaded)
     {
-        <div class="col-4">
-            <ItemCard Item="@item" />
-        </div>
+        <p class="fs-5">loading products...</p>
+    }
+    else
+    {
+        @foreach(var item in TeddyBears)
+        {
+            <div class="col-md-4 col-12" @key="item.Id">
+                <ItemCard Item="@item" />
+            </div>
+        }        
     }
 </div>
 
 <h3 class="fw-bold pt-4 fs-1">Shop teddy clothing:</h3>
 <div class="w-100 overflow-x-scroll pt-2 row">
-    @foreach (var item in Clothing)
+    @if (!ItemsLoaded)
     {
-        <div class="col-4">
-            <ItemCard Item="@item" />
-        </div>
+        <p class="fs-5">loading products...</p>
+    }
+    else
+    {
+        @foreach (var item in Clothing)
+        {
+            <div class="col-md-4 col-12" @key="item.Id">
+                <ItemCard Item="@item" />
+            </div>
+        }
     }
 </div>
 
@@ -38,10 +53,18 @@
     private List<Item> TeddyBears = new List<Item>();
     private List<Item> Clothing = new List<Item>();
 
+    private bool ItemsLoaded = false;
+
     protected override async Task OnInitializedAsync()
     {
-        TeddyBears = await ItemService.FetchSpecificAmount(5,"Teddy Bear");
-        Clothing = await ItemService.FetchSpecificAmount(5, "Clothing");
+        var teddyBearTask = ItemService.FetchSpecificAmount(5, "Teddy Bear");
+        var clothingTask = ItemService.FetchSpecificAmount(5, "Clothing");
 
+        await Task.WhenAll(teddyBearTask, clothingTask);
+
+        TeddyBears = await teddyBearTask;
+        Clothing = await clothingTask;
+
+        ItemsLoaded = true;
     }
 }
