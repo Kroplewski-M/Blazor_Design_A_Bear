@@ -15,8 +15,30 @@
         <p class="font-bold ps-3 fs-1 fw-bold">@bearStateString</p>
     </div>
     <div class="d-none d-md-inline" style="width:30vw;">
-        <div class="width-100 bg-primary rounded mt-2" style="height:300px">
+        <div class="width-100 bg-primary rounded mt-2 pb-2">
             <p class="text-center fw-bold fs-2 text-light">My furry friend</p>
+            <div class="d-flex flex-column">
+                <div class="d-flex">
+                    <div class="rounded-circle border border-2 border-success d-flex mt-2 ms-5" style="width:50px;height:50px;background-color:#D1FFBD;">
+                        <p class="fw-bold fs-4 align-self-center pt-3 ps-3">1</p>
+                    </div>
+                    <p class="fs-2 fw-bold mt-2 ps-3">Choose a bear!</p>
+                </div>
+                <hr/>
+                <div class="d-flex">
+                    <div class="rounded-circle border border-2 border-success d-flex mt-2 ms-5" style="width:50px;height:50px;background-color:#D1FFBD;">
+                        <p class="fw-bold fs-4 align-self-center pt-3 ps-3">2</p>
+                    </div>
+                    <p class="fs-2 fw-bold mt-2 ps-3">Choose clothing!</p>
+                </div>
+                <hr/>
+                <div class="d-flex">
+                    <div class="rounded-circle border border-2 border-success d-flex mt-2 ms-5" style="width:50px;height:50px;background-color:#D1FFBD;">
+                        <p class="fw-bold fs-4 align-self-center pt-3 ps-3">3</p>
+                    </div>
+                    <p class="fs-2 fw-bold mt-2 ps-3">Add to cart!</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -34,5 +56,32 @@
     {
         Bears = await ItemService.GetItemsByCategory("Teddy Bear");
         Clothing = await ItemService.GetItemsByCategory("Clothing");
+    }
+
+    private void Setstate(int state)
+    {
+        builderState = state;
+        switch (state)
+        {
+            case 1:
+                bearStateString = "Choose a bear!";
+                break;
+            case 2:
+                bearStateString = "Choose clothing!";
+                break;
+            case 3:
+                bearStateString = "Add to cart!";
+                break;
+        }
+    }
+    private void SelectBear(Item item)
+    {
+        selectedBear = item;
+        Setstate(2);
+    }
+    private void SelectClothing(Item item)
+    {
+        selectedClothing = item;
+        Setstate(3);
     }
 }
