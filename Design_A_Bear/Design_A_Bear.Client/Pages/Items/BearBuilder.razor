@@ -1,9 +1,10 @@
 ﻿@page "/Bear-Builder"
 @using Design_A_Bear.Models
 @using Design_A_Bear.Services
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode InteractiveAuto
 @inject IItemService ItemService
 @inject IImageService ImageService
+@inject PersistentComponentState ApplicationState
 
 <div class="w-100 mt-2 bg-primary rounded" style="height:100px">
     <h3 class="fw-bold fs-1 mt-2 text-light ps-3 pt-3">Build your own bear!</h3>
@@ -75,6 +76,8 @@
 </div>
 
 @code {
+    private PersistingComponentStateSubscription persistingSubscription;
+
     private int builderState = 1;
     private string bearStateString = "Choose a bear!";
     private List<Item> Bears = new List<Item>();
@@ -85,10 +88,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Bears = await ItemService.GetItemsByCategory("Teddy Bear");
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistBears);
+        if (!ApplicationState.TryTakeFromJson<List<Item>>(nameof(Bears),out var restoredBears))
+        {
+            Bears = await ItemService.GetItemsByCategory("Teddy Bear");
+        }
+        else
+        { 
+            Bears = restoredBears;
+        }
+        
         Clothing = await ItemService.GetItemsByCategory("Clothing");
     }
+    private Task PersistBears()
+    {
+        // Save state
+        ApplicationState.PersistAsJson(nameof(Bears), Bears);
 
+        return Task.CompletedTask;
+    }
     private void SetState(int state)
     {
         builderState = state;

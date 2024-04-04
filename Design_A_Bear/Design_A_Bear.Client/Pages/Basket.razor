@@ -5,7 +5,8 @@
 @inject IBasketService BasketService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IImageService ImageService
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode InteractiveAuto
+@inject PersistentComponentState ApplicationState
 
 <div class="container">
     <h1 class="pt-2">Basket</h1>
@@ -62,21 +63,39 @@
 </div>
 
 @code {
+    private PersistingComponentStateSubscription persistingSubscription;
+
     private List<BasketItem>basketItems = new();
     private string userId = "";
     private bool isLoaded = false;
 
     protected override async Task OnInitializedAsync()
     {
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistBasketItems);
+
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (!String.IsNullOrEmpty(userId))
         {
-            basketItems = await BasketService.GetAllBasketItems(userId);
+            if(!ApplicationState.TryTakeFromJson<List<BasketItem>>(nameof(basketItems), out var restoredItems))
+            {
+                basketItems = await BasketService.GetAllBasketItems(userId);
+            }
+            else
+            {
+                basketItems = restoredItems;
+            }
         }
         isLoaded = true;
+    }
+    private Task PersistBasketItems()
+    {
+        // Save state
+        ApplicationState.PersistAsJson(nameof(basketItems), basketItems);
+
+        return Task.CompletedTask;
     }
     private async void DeleteItem(int itemId)
     {

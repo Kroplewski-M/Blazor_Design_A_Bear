@@ -4,7 +4,8 @@
 @using Design_A_Bear.Models
 @using Design_A_Bear.Client.Pages.components
 @inject IItemService ItemService
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode InteractiveAuto
+@inject PersistentComponentState ApplicationState
 
 <PageTitle>@searchProduct</PageTitle>
 
@@ -41,6 +42,8 @@ else
 }
 
 @code {
+    private PersistingComponentStateSubscription persistingSubscription;
+
     [Parameter] 
     public string category { get; set; } = "";
 
@@ -56,27 +59,52 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (category == "Bears")
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistItems);
+        if (!ApplicationState.TryTakeFromJson<List<Item>>(nameof(items), out var restoredItems))
         {
-            items = await ItemService.GetItemsByCategory("Teddy Bear");
-            SearchType = "Browse Teddy Bears";
-        }
-        else if (category == "Clothing")
-        {
-            items = await ItemService.GetItemsByCategory("Clothing");
-            SearchType = "Browse Clothing";
+            if (category == "Bears")
+            {
+                items = await ItemService.GetItemsByCategory("Teddy Bear");
+                SearchType = "Browse Teddy Bears";
+            }
+            else if (category == "Clothing")
+            {
+                items = await ItemService.GetItemsByCategory("Clothing");
+                SearchType = "Browse Clothing";
+            }
+            else
+            {
+                items = await ItemService.GetAllItems();
+                SearchType = "Browse All Products";
+            }
         }
         else
         {
-            items = await ItemService.GetAllItems();
-            SearchType = "Browse All Products";
+            if (category == "Bears")
+            {
+                SearchType = "Browse Teddy Bears";
+            }
+            else if (category == "Clothing")
+            {
+                SearchType = "Browse Clothing";
+            }
+            else
+            {
+                SearchType = "Browse All Products";
+            }
+            items = restoredItems;
         }
- 
+
         FilteredItems = items;
         searchProduct = "";
         isLoaded= true;
     }
 
+    private Task PersistItems()
+    {
+        ApplicationState.PersistAsJson(nameof(items), items);
+        return Task.CompletedTask;
+    }
     void SearchProduct(string input)
     {
         searchProduct = input;

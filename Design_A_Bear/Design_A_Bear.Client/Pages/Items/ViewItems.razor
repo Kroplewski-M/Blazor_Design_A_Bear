@@ -6,7 +6,8 @@
 @inject IImageService ImageService
 @inject NavigationManager NavigationManager
 @inject IItemService ItemService
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode InteractiveAuto
+@inject PersistentComponentState ApplicationState
 @attribute [Authorize(Roles ="Admin")]
 
 <div class="d-flex mt-4 mb-4">
@@ -64,6 +65,8 @@ else
 }
 
 @code {
+    private PersistingComponentStateSubscription persistingSubscription;
+
     private List<Item> items = new List<Item>();
     private bool showDeleteItem = false;
     private Item itemToDelete = new Item();
@@ -71,13 +74,24 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        items = await ItemService.GetAllItems();
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistItems);
+        if (!ApplicationState.TryTakeFromJson<List<Item>>(nameof(items), out var restoredItems))
+        {
+            items = await ItemService.GetAllItems();
+        }
+        else
+        {
+            items = restoredItems;
+        }
         isLoaded = true;
     }
-    private void EditItem(int id)
+    private Task PersistItems()
     {
-        NavigationManager.NavigateTo($"/upsert/{id}");
+        // Save state
+        ApplicationState.PersistAsJson(nameof(items), items);
+        return Task.CompletedTask;
     }
+
 
     private void DeleteItem(int itemId)
     {
