@@ -26,7 +26,7 @@
                         <img src="@ImageService.ConvertBase64ToImage(bear.ImgBase64, bear.ImageType)" class="rounded m-2"/>
                         <hr/>
                         <p class="fw-bold fs-4">@bear.Name</p>
-                        <button class="btn btn-primary">Select</button>
+                        <button class="btn btn-primary" @onclick="() => SelectAndChangeState(bear,'B',2)">Select</button>
                     </div>
                 }
             </div>
@@ -34,19 +34,19 @@
         @if (builderState == 2)
         {
             <div class="row">
-                @foreach (var bear in Clothing)
+                @foreach (var cloths in Clothing)
                 {
                     <div class="col-4 d-flex flex-column">
-                        <img src="@ImageService.ConvertBase64ToImage(bear.ImgBase64, bear.ImageType)" class="rounded m-2"/>
+                        <img src="@ImageService.ConvertBase64ToImage(cloths.ImgBase64, cloths.ImageType)" class="rounded m-2" />
                         <hr/>
-                        <p class="fw-bold fs-4">@bear.Name</p>
-                        <button class="btn btn-primary">Select</button>
+                        <p class="fw-bold fs-4">@cloths.Name</p>
+                        <button class="btn btn-primary" @onclick="() => SelectAndChangeState(cloths,'C',3)">Select</button>
                     </div>
                 }
             </div>
         }
     </div>
-    <div class="d-none d-md-inline" style="width:30vw;">
+    <div class="d-none d-md-inline" style="width:29vw;">
         <div class="width-100 bg-primary rounded mt-2 pb-2">
             <p class="text-center fw-bold fs-2 text-light">My furry friend</p>
             <div class="d-flex flex-column">
@@ -56,6 +56,17 @@
                     </div>
                     <p class="fs-2 fw-bold mt-2 ps-3">Choose a bear!</p>
                 </div>
+                @if (selectedBear.Id != 0)
+                {
+                    <div>
+                        <div class="col-4 d-flex flex-column ms-5">
+                            <img src="@ImageService.ConvertBase64ToImage(selectedBear.ImgBase64, selectedBear.ImageType)" class="rounded m-2" />
+                            <hr/>
+                            <p class="fw-bold fs-4 text-light">@selectedBear.Name</p>
+                        </div>
+
+                    </div>
+                }
                 <hr/>
                 <div class="d-flex">
                     <div class="rounded-circle border border-2 border-success d-flex mt-2 ms-5" style="width:50px;height:50px;background-color:#D1FFBD;">
@@ -63,6 +74,17 @@
                     </div>
                     <p class="fs-2 fw-bold mt-2 ps-3">Choose clothing!</p>
                 </div>
+                @if (selectedClothing.Id != 0)
+                {
+                    <div>
+                        <div class="col-4 d-flex flex-column ms-5">
+                            <img src="@ImageService.ConvertBase64ToImage(selectedClothing.ImgBase64, selectedClothing.ImageType)" class="rounded m-2" />
+                            <hr/>
+                            <p class="fw-bold fs-4 text-light">@selectedClothing.Name</p>
+                        </div>
+
+                    </div>
+                }
                 <hr/>
                 <div class="d-flex">
                     <div class="rounded-circle border border-2 border-success d-flex mt-2 ms-5" style="width:50px;height:50px;background-color:#D1FFBD;">
@@ -132,5 +154,18 @@
     {
         selectedClothing = item;
         SetState(3);
+    }
+
+    private void SelectAndChangeState(Item item,char type, int state)
+    {
+        if (type == 'B')
+        {
+            SelectBear(item);
+        }
+        else
+        {
+            SelectClothing(item);
+        }
+        SetState(state);
     }
 }
