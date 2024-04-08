@@ -41,9 +41,10 @@ namespace Design_A_Bear.Services
             return result;
         }
 
-        public async Task<bool> UpdateQuantity(int itemId, string userId, int quantity)
+        public async Task<BasketItem> UpdateBasketItem(BasketItem item)
         {
-            throw new NotImplementedException();
+            var result = await _httpClient.PutAsJsonAsync("/api/Basket", item);
+            return await result.Content.ReadFromJsonAsync<BasketItem>();
         }
 
         public async Task<BasketItem> IsInBasket(int itemId, string userId)

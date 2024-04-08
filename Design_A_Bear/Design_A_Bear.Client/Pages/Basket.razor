@@ -41,7 +41,7 @@
                             £@item.Item.Price.ToString("F2")
                         </td>
                         <td class="py-4">
-                            <select @bind="item.Quantity">
+                            <select @onchange="(arg) => UpdateItem(item,arg)">
                                 @for (int i = 1; i <= 10; i++)
                                 {
                                     <option value="@i" selected="@(item.Quantity == i)">@i</option>
@@ -112,6 +112,13 @@
             TotalPrice += item.Item.Price * item.Quantity;
         }
         return TotalPrice.ToString("F2");
+    }
+
+    private async void UpdateItem(BasketItem item, ChangeEventArgs eventArgs)
+    {
+        int quantity = Convert.ToInt32(eventArgs.Value);
+        item.Quantity = quantity;
+        await BasketService.UpdateBasketItem(item);
     }
 }
 

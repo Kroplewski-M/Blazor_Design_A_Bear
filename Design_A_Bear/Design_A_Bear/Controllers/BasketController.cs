@@ -45,9 +45,9 @@ namespace Design_A_Bear.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateQuantity(BasketItem item)
+        public async Task<ActionResult> UpdateBasketItem(BasketItem item)
         {
-            await _basketService.UpdateQuantity(item.ItemId, item.UserId, item.Quantity);
+            await _basketService.UpdateBasketItem(item);
             return Ok();
         }
 

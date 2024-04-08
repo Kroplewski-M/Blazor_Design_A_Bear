@@ -39,16 +39,15 @@ namespace Design_A_Bear.Services
             return items;
         }
 
-        public async Task<bool> UpdateQuantity(int itemId, string userId, int quantity)
+        public async Task<BasketItem> UpdateBasketItem(BasketItem item)
         {
-            BasketItem item = await _db.BasketItems.FirstOrDefaultAsync(b => b.ItemId == itemId && b.UserId == userId);
             if (item == null)
             {
-                return false;
+                throw new Exception("Item not found");
             }
-            item.Quantity = quantity;
-            await _db.SaveChangesAsync();
-            return true;
+            _db.BasketItems.Update(item);
+            _db.SaveChangesAsync();
+            return item;
         }
 
         public async Task<BasketItem> IsInBasket(int itemId, string userId)
